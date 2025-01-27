@@ -1,41 +1,44 @@
 import React from 'react';
 import './Cart.css';
 
-const Cart = ({ cart, updateQuantity, removeFromCart, getTotalItems, getTotalCost }) => {
+const Cart = ({ cart, updateQuantity, removeFromCart, getTotalItems, getTotalCost, setPage }) => {
   return (
     <div className="cart-page">
-      <h2 className="cart-title">Your Shopping Cart</h2>
-      {cart.length === 0 ? (
-        <p className="empty-cart">Your cart is empty!</p>
-      ) : (
-        <>
-          <ul className="cart-items">
-            {cart.map(item => (
-              <li className="cart-item" key={item.id}>
-                <img src={item.image} alt={item.name} className="cart-item-image" />
-                <div className="cart-item-details">
-                  <h3>{item.name}</h3>
-                  <p>Unit Price: ${item.price}</p>
-                  <p>Total: ${item.quantity * item.price}</p>
-                  <div className="cart-item-controls">
-                    <button onClick={() => updateQuantity(item.id, -1)}>-</button>
-                    <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, 1)}>+</button>
-                  </div>
-                  <button onClick={() => removeFromCart(item.id)} className="remove-item">
-                    Remove
-                  </button>
+      <h2 className="cart-title">Shopping Cart</h2>
+      <div className="cart-items">
+        {cart.length === 0 ? (
+          <p>Your cart is empty!</p>
+        ) : (
+          cart.map((item) => (
+            <div className="cart-item" key={item.id}>
+              <img src={item.image} alt={item.name} className="cart-item-image" />
+              <div className="cart-item-info">
+                <h3>{item.name}</h3>
+                <p>${item.price}</p>
+                <div className="cart-item-actions">
+                  <button onClick={() => updateQuantity(item.id, -1)}>-</button>
+                  <span>{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item.id, 1)}>+</button>
+                  <button onClick={() => removeFromCart(item.id)} className="remove-button">Remove</button>
                 </div>
-              </li>
-            ))}
-          </ul>
-          <div className="cart-summary">
-            <p>Total Items: {getTotalItems()}</p>
-            <p>Total Cost: ${getTotalCost()}</p>
-            <button className="checkout-button">Checkout</button>
-          </div>
-        </>
-      )}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+      
+      <div className="cart-summary">
+        {/* Display "Continue Shopping" and Checkout button accordingly */}
+        {cart.length === 0 ? (
+          <button className="checkout-button" onClick={() => alert('Coming Soon')}>Checkout</button>
+        ) : (
+          <>
+            <button className="continue-shopping-button" onClick={() => setPage('home')}>Continue Shopping</button>
+
+            <button className="checkout-button" onClick={() => alert('Coming Soon')}>Checkout</button>
+          </>
+        )}
+      </div>
     </div>
   );
 };
